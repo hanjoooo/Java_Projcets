@@ -21,8 +21,8 @@
         <activity android:name=".firstRegist" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/title_activity_main" />
+        <activity android:name=".MypageActivity"></activity>
     </application>
 
 </manifest>

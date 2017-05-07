@@ -12,7 +12,7 @@
     tools:context="com.example.kimhanjoo.mybob_kau.SplashActivity">
 
     <TextView
-        android:text="    MyBoB KAU"
+        android:text="Scheduler in KAU"
         android:layout_width="400dp"
         android:layout_height="100dp"
         android:layout_marginTop="226dp"

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyBob_KAU</string>
+    <string name="app_name">SIK</string>
     <string name="spinnerPrompt1">대학교를 선택해주세요</string>
     <string name="spinnerPrompt2">계열</string>
     <string name="spinnerPrompt3">분야</string>
