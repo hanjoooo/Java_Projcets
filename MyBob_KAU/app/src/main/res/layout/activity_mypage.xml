@@ -90,7 +90,7 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:id="@+id/pr_manage" />
 
         <Button
-            android:text="오늘 해야될 일"
+            android:text="내 일정 보기"
             android:textSize="15dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:gravity="center|left"

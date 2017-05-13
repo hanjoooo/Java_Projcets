@@ -53,6 +53,7 @@ public class ChangeProfileActivity extends BaseActivity implements GoogleApiClie
     private static final String TAG = "EmailPassword";
 
 
+
     DatabaseReference mchildRef;  DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("users");
     DatabaseReference mchild1Ref;

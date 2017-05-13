@@ -1,33 +1,32 @@
 package com.example.kimhanjoo.mybob_kau;
 
-
 import java.util.ArrayList;
-        import java.util.Date;
+import java.util.Date;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.TextView;
 
-        import android.app.Activity;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.view.View;
-        import android.view.View.OnClickListener;
-        import android.widget.AdapterView;
-        import android.widget.AdapterView.OnItemClickListener;
-        import android.widget.ArrayAdapter;
-        import android.widget.Button;
-        import android.widget.GridView;
-        import android.widget.TextView;
-
-public class CalendarAcitivity extends Activity implements OnClickListener,
-        OnItemClickListener {
+public class CalendarAcitivity extends Activity implements OnClickListener, OnItemClickListener {
     ArrayList<String> mItems;
     ArrayAdapter<String> adapter;
     TextView textYear;
     TextView textMon;
+    private BackPressCloseHandler backPressCloseHandler;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_acitivity);
+
 
         textYear = (TextView) this.findViewById(R.id.edit1);
         textMon = (TextView) this.findViewById(R.id.edit2);
@@ -50,6 +49,7 @@ public class CalendarAcitivity extends Activity implements OnClickListener,
 
         Button btnmove = (Button) this.findViewById(R.id.bt1);
         btnmove.setOnClickListener(this);
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
     }
 
@@ -104,4 +104,8 @@ public class CalendarAcitivity extends Activity implements OnClickListener,
             startActivity(intent);
         }
     }
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
+    }
+
 }
