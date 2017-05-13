@@ -61,7 +61,7 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:id="@+id/logout" />
 
         <TextView
-            android:text="질문 관리"
+            android:text="스케줄 관리"
             android:textSize="20dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:background="@color/focused1"
@@ -70,7 +70,7 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:id="@+id/textView4" />
 
         <Button
-            android:text="내 질문 등록"
+            android:text="내 일정 등록"
             android:textSize="15dp"
             android:gravity="center|left"
             android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -80,7 +80,7 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:id="@+id/pr_upload" />
 
         <Button
-            android:text="내 질문 관리"
+            android:text="내 일정 관리"
             android:textSize="15dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:gravity="center|left"
@@ -90,7 +90,7 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:id="@+id/pr_manage" />
 
         <Button
-            android:text="내 질문 기록"
+            android:text="오늘 해야될 일"
             android:textSize="15dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:gravity="center|left"
@@ -99,53 +99,6 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:layout_height="wrap_content"
             android:id="@+id/pr_record" />
 
-        <TextView
-            android:text="답변 관리"
-            android:textSize="20dp"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:background="@color/focused1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView5" />
-
-        <Button
-            android:text="내 답변 관리"
-            android:textSize="15dp"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:gravity="center|left"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/aw_manage" />
-
-        <Button
-            android:text="내 답변 기록"
-            android:textSize="15dp"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:gravity="center|left"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/aw_record" />
-
-        <TextView
-            android:text="스크랩북"
-            android:textSize="20dp"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:background="@color/focused1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView6" />
-
-        <Button
-            android:text="스크랩"
-            android:textSize="15dp"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:gravity="center|left"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrapt" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
 

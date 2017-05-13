@@ -175,7 +175,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.profile_change) {
-            Intent intent = new Intent(getApplicationContext(),Main2Activity.class);
+            Intent intent = new Intent(getApplicationContext(),ChangeProfileActivity.class);
             startActivity(intent);
         }
         else if(i==R.id.image_change){

@@ -26,7 +26,7 @@ public class MainActivity extends ActivityGroup {
         tabHost.setup(getLocalActivityManager());
 
         tabHost.addTab(tabHost.newTabSpec("TAB1").setIndicator("홈")
-                .setContent(new Intent(this, Main2Activity.class)));
+                .setContent(new Intent(this, CalendarAcitivity.class)));
         tabHost.addTab(tabHost.newTabSpec("TAB2").setIndicator("게시판")
                 .setContent(new Intent(this, Main2Activity.class)));
         tabHost.addTab(tabHost.newTabSpec("TAB3").setIndicator("마이페이지")
