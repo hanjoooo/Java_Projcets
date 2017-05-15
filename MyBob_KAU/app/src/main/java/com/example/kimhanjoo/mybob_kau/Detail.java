@@ -5,12 +5,34 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-public class Detail extends Activity implements OnClickListener {
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+public class Detail extends AppCompatActivity implements OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private GoogleApiClient mGoogleApiClient;
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mConditionRef = mRootRef.child("users");
+    DatabaseReference mchildRef;
+
     MyDBHelper mDBHelper;
     int mId;
     String today;
@@ -31,6 +53,7 @@ public class Detail extends Activity implements OnClickListener {
         mId = intent.getIntExtra("ParamID", -1);
         today = intent.getStringExtra("ParamDate");
 
+        mAuth = FirebaseAuth.getInstance();
         mDBHelper = new MyDBHelper(this, "Today.db", null, 1);
 
         if (mId == -1) {
@@ -60,6 +83,24 @@ public class Detail extends Activity implements OnClickListener {
             btn2.setVisibility(View.INVISIBLE);
 
         }
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    mchildRef = mConditionRef.child(user.getUid());
+                }
+            }
+        };
     }
 
     @Override
@@ -98,5 +139,22 @@ public class Detail extends Activity implements OnClickListener {
                 break;
         }
         finish();
+    }
+    protected void onStart(){
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+
+    }
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+
     }
 }
