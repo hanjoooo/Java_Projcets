@@ -31,7 +31,12 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
     private GoogleApiClient mGoogleApiClient;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("users");
+    DatabaseReference mConditionRef1 = mRootRef.child("memory");
     DatabaseReference mchildRef;
+    DatabaseReference mchild1Ref;
+    DatabaseReference mchild2Ref;
+    DatabaseReference mchild3Ref;
+    DatabaseReference mchild4Ref;
 
     MyDBHelper mDBHelper;
     int mId;
@@ -92,12 +97,14 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    mchildRef = mConditionRef.child(user.getUid());
+                    mchildRef = mConditionRef1.child(user.getUid());
+
                 }
             }
         };
@@ -126,10 +133,18 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                 }
                 mDBHelper.close();
                 setResult(RESULT_OK);
+                mchild1Ref = mchildRef.child(editDate.getText().toString());
+                mchild2Ref = mchild1Ref.child("시간");
+                mchild3Ref = mchild1Ref.child("제목");
+                mchild4Ref = mchild1Ref.child("내용");
+                mchild2Ref.setValue(editTime.getText().toString());
+                mchild3Ref.setValue(editTitle.getText().toString());
+                mchild4Ref.setValue(editMemo.getText().toString());
                 break;
             case R.id.btndel:
                 if (mId != -1) {
                     db.execSQL("DELETE FROM today WHERE _id='" + mId + "';");
+
                     mDBHelper.close();
                 }
                 setResult(RESULT_OK);
