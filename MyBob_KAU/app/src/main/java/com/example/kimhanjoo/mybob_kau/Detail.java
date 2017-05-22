@@ -104,6 +104,43 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     mchildRef = mConditionRef1.child(user.getUid());
+                    mchild1Ref = mchildRef.child(editDate.getText().toString());
+                    mchild2Ref = mchild1Ref.child("시간");
+                    mchild3Ref = mchild1Ref.child("제목");
+                    mchild4Ref = mchild1Ref.child("내용");
+                    mchild2Ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String txt = dataSnapshot.getValue(String.class);
+                            editTime.setText(txt);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                    mchild3Ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String txt = dataSnapshot.getValue(String.class);
+                            editTitle.setText(txt);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                    mchild4Ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String txt = dataSnapshot.getValue(String.class);
+                            editMemo.setText(txt);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
 
                 }
             }
@@ -118,12 +155,14 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
         switch (v.getId()) {
             case R.id.btnsave:
                 if (mId != -1) {
+                    /*
                     db.execSQL("UPDATE today SET title='"
                             + editTitle.getText().toString() + "',date='"
                             + editDate.getText().toString() + "', time='"
                             + editTime.getText().toString() + "', memo='"
                             + editMemo.getText().toString() + "' WHERE _id='" + mId
                             + "';");
+                    */
                 } else {
                     db.execSQL("INSERT INTO today VALUES(null, '"
                             + editTitle.getText().toString() + "', '"
@@ -133,10 +172,7 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                 }
                 mDBHelper.close();
                 setResult(RESULT_OK);
-                mchild1Ref = mchildRef.child(editDate.getText().toString());
-                mchild2Ref = mchild1Ref.child("시간");
-                mchild3Ref = mchild1Ref.child("제목");
-                mchild4Ref = mchild1Ref.child("내용");
+
                 mchild2Ref.setValue(editTime.getText().toString());
                 mchild3Ref.setValue(editTitle.getText().toString());
                 mchild4Ref.setValue(editMemo.getText().toString());
