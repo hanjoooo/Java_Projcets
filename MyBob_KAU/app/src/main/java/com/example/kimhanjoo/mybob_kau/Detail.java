@@ -30,13 +30,15 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference mConditionRef = mRootRef.child("users");
+    DatabaseReference mConditionRef;
     DatabaseReference mConditionRef1 = mRootRef.child("memory");
     DatabaseReference mchildRef;
     DatabaseReference mchild1Ref;
     DatabaseReference mchild2Ref;
     DatabaseReference mchild3Ref;
     DatabaseReference mchild4Ref;
+    DatabaseReference mchild5Ref;
+    DatabaseReference mchild6Ref;
 
     MyDBHelper mDBHelper;
     int mId;
@@ -49,17 +51,20 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+
+
         editDate = (EditText) findViewById(R.id.editdate);
         editTitle = (EditText) findViewById(R.id.edittitle);
         editTime = (EditText) findViewById(R.id.edittime);
         editMemo = (EditText) findViewById(R.id.editmemo);
 
+
         Intent intent = getIntent();
         mId = intent.getIntExtra("ParamID", -1);
         today = intent.getStringExtra("ParamDate");
 
-        mAuth = FirebaseAuth.getInstance();
         mDBHelper = new MyDBHelper(this, "Today.db", null, 1);
+        mAuth = FirebaseAuth.getInstance();
 
         if (mId == -1) {
             editDate.setText(today);
@@ -76,6 +81,7 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
             }
             mDBHelper.close();
         }
+
 
         Button btn1 = (Button) findViewById(R.id.btnsave);
         btn1.setOnClickListener(this);
@@ -105,43 +111,6 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                 if (user != null) {
                     mchildRef = mConditionRef1.child(user.getUid());
                     mchild1Ref = mchildRef.child(editDate.getText().toString());
-                    mchild2Ref = mchild1Ref.child("시간");
-                    mchild3Ref = mchild1Ref.child("제목");
-                    mchild4Ref = mchild1Ref.child("내용");
-                    mchild2Ref.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String txt = dataSnapshot.getValue(String.class);
-                            editTime.setText(txt);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                    mchild3Ref.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String txt = dataSnapshot.getValue(String.class);
-                            editTitle.setText(txt);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                    mchild4Ref.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String txt = dataSnapshot.getValue(String.class);
-                            editMemo.setText(txt);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-
                 }
             }
         };
@@ -155,14 +124,12 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
         switch (v.getId()) {
             case R.id.btnsave:
                 if (mId != -1) {
-                    /*
                     db.execSQL("UPDATE today SET title='"
                             + editTitle.getText().toString() + "',date='"
                             + editDate.getText().toString() + "', time='"
                             + editTime.getText().toString() + "', memo='"
                             + editMemo.getText().toString() + "' WHERE _id='" + mId
                             + "';");
-                    */
                 } else {
                     db.execSQL("INSERT INTO today VALUES(null, '"
                             + editTitle.getText().toString() + "', '"
@@ -172,16 +139,27 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                 }
                 mDBHelper.close();
                 setResult(RESULT_OK);
-
-                mchild2Ref.setValue(editTime.getText().toString());
+                mchild1Ref.setValue(editTime.getText().toString());
+                mConditionRef=mchild1Ref.child(editTime.getText().toString());
+                mchild3Ref = mConditionRef.child("제목");
+                mchild4Ref = mConditionRef.child("내용");
                 mchild3Ref.setValue(editTitle.getText().toString());
                 mchild4Ref.setValue(editMemo.getText().toString());
+                mDBHelper.close();
+                setResult(RESULT_OK);
                 break;
             case R.id.btndel:
                 if (mId != -1) {
                     db.execSQL("DELETE FROM today WHERE _id='" + mId + "';");
-
                     mDBHelper.close();
+                    mchild1Ref.setValue(editTime.getText().toString());
+                    mConditionRef=mchild1Ref.child(editTime.getText().toString());
+                    mchild3Ref = mConditionRef.child("제목");
+                    mchild4Ref = mConditionRef.child("내용");
+                    mchild3Ref.setValue(null);
+                    mchild4Ref.setValue(null);
+                    mchild1Ref.setValue(null);
+
                 }
                 setResult(RESULT_OK);
                 break;
@@ -191,6 +169,7 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
         }
         finish();
     }
+
     protected void onStart(){
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
