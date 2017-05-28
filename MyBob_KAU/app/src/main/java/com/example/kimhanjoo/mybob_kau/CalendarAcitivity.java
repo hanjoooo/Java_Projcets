@@ -86,7 +86,14 @@ public class CalendarAcitivity extends Activity implements OnClickListener, OnIt
         int last = 32 - current.getDate();
 
         for (int i = 1; i <= last; i++) {
-            mItems.add(i + "");
+            String x;
+            if(i<10){
+                x="0"+i;
+            }
+            else{
+               x=""+i;
+            }
+            mItems.add(x + "");
         }
         adapter.notifyDataSetChanged();
 

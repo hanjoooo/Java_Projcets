@@ -65,6 +65,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.logout).setOnClickListener(this);
         findViewById(R.id.pr_manage).setOnClickListener(this);
         findViewById(R.id.pr_upload).setOnClickListener(this);
+        findViewById(R.id.pr_record).setOnClickListener(this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -187,14 +188,16 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
             startActivity(intent);
         }
         else if(i==R.id.pr_upload){
-            Intent intent = new Intent(getApplicationContext(),Main2Activity.class);
+            Intent intent = new Intent(getApplicationContext(),Detail.class);
             startActivity(intent);
         }
         else if(i==R.id.pr_manage){
-
+            Intent intent = new Intent(getApplicationContext(),Main2Activity.class);
+            startActivity(intent);
         }
         else if(i==R.id.pr_record){
-
+            Intent intent = new Intent(getApplicationContext(),ViewScheduleActivity.class);
+            startActivity(intent);
         }
     }
 

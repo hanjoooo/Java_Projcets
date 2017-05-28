@@ -1,34 +1,47 @@
 package com.example.kimhanjoo.mybob_kau;
 
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import android.support.annotation.NonNull;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+
+        import android.app.Activity;
+        import android.content.Intent;
+        import android.database.Cursor;
+        import android.database.sqlite.SQLiteDatabase;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.View;
+        import android.view.View.OnClickListener;
+        import android.view.ViewGroup;
+        import android.widget.AdapterView;
+        import android.widget.Button;
+        import android.widget.ListView;
+        import android.widget.SimpleCursorAdapter;
+        import android.widget.AdapterView.OnItemClickListener;
+        import android.widget.TextView;
+        import android.widget.Toast;
+
+        import com.google.android.gms.auth.api.Auth;
+        import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+        import com.google.android.gms.common.ConnectionResult;
+        import com.google.android.gms.common.api.GoogleApiClient;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.Query;
+        import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class Main2Activity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener  {
+public class  ViewScheduleActivity extends AppCompatActivity implements OnItemClickListener,
+        OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
@@ -40,8 +53,13 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     DatabaseReference mchild3Ref;
     DatabaseReference mchild4Ref;
     DatabaseReference mchild5Ref;
-
+    MyDBHelper mDBHelper;
     String today;
+    Cursor cursor;
+    SimpleCursorAdapter adapter;
+    ListView list;
+    ListViewAdapter adapters;
+
     Date date = new Date();// 오늘에 날짜를 세팅 해준다.
     int year = date.getYear() + 1900;
     int mon = date.getMonth() + 1;
@@ -50,11 +68,17 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     String[] title = new String[]{"제목입력", "제목입력", "제목입력", "제목입력", "제목입력", "제목입력", "제목입력"};
     String[] memo = new String[]{"내용입력", "내용입력", "내용입력", "내용입력", "내용입력", "내용입력", "내용입력"};
     int cur = 0;
+    int x = 0;
 
+    ArrayList<Memos> arraylist = new ArrayList<Memos>();
+
+    /**
+     * Called when the activity is first created.
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_view_schedule);
         mAuth = FirebaseAuth.getInstance();
 
         SimpleDateFormat df = new SimpleDateFormat("dd", Locale.KOREA);
@@ -65,6 +89,24 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
         TextView text = (TextView) findViewById(R.id.texttoday);
         text.setText(today);
+
+        mDBHelper = new MyDBHelper(this, "Today.db", null, 1);
+        SQLiteDatabase db = mDBHelper.getWritableDatabase();
+
+        cursor = db.rawQuery(
+                "SELECT * FROM today WHERE date = '" + today + "'", null);
+
+        adapter = new SimpleCursorAdapter(this,
+                android.R.layout.simple_list_item_2, cursor, new String[]{
+                "title", "time"}, new int[]{android.R.id.text1,
+                android.R.id.text2});
+
+        ListView list = (ListView) findViewById(R.id.list1);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(this);
+
+        mDBHelper.close();
+
 
         Button btn = (Button) findViewById(R.id.btnadd);
         btn.setOnClickListener(this);
@@ -85,14 +127,24 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 if (user != null) {
                     mchildRef = mConditionRef1.child(user.getUid());
                     mchild1Ref = mchildRef.child(today);
-                    mchild2Ref = mchild1Ref.child("22:00");
+                    mchild2Ref = mchild1Ref.child("0002");
                     mchild3Ref = mchild2Ref.child("제목");
                     mchild4Ref = mchild2Ref.child("내용");
                     mchild5Ref = mchild2Ref.child("총 시간");
+                    mchild2Ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // times[cur] = dataSnapshot.getValue(String.class);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
                     mchild3Ref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            title[cur] = dataSnapshot.getValue(String.class);
+                            //title[cur] = dataSnapshot.getValue(String.class);
                         }
 
                         @Override
@@ -102,7 +154,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     mchild4Ref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            memo[cur] = dataSnapshot.getValue(String.class);
+                            // memo[cur] = dataSnapshot.getValue(String.class);
 
                         }
 
@@ -112,12 +164,41 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     });
                 }
             }
-
         };
 
-        Log.d("ppppppppppppppppppppp",title[0]);
-        Log.d("ppppppppppppppppppppp",memo[0]);
+        /*
+
+        if (x == 1) {
+            list = (ListView) findViewById(R.id.list1);
+            for (int i = 0; i <7; i++)
+            {
+                Memos wp = new Memos(times[i], title[i],
+                        memo[i]);
+                Log.d("ppppppppppppppppppppppppppppppppppppppppppppppppp",times[i]);
+                // Binds all strings into an array
+                arraylist.add(wp);
+            }
+            adapter = new ListViewAdapter(this, arraylist);
+            list.setAdapter(adapter);
+            list.setOnItemClickListener(this);
+
+        }
+        // Locate the ListView in listview_main.xml
+        */
+
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+                            long id) {
+        // TODO Auto-generated method stub
+        Intent intent = new Intent(this, Detail.class);
+        cursor.moveToPosition(position);
+        intent.putExtra("ParamID", cursor.getInt(0));
+        startActivityForResult(intent, 0);
+    }
+
+
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
@@ -135,12 +216,16 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             case 0:
             case 1:
                 if (resultCode == RESULT_OK) {
-
+                    // adapter.notifyDataSetChanged();
+                    SQLiteDatabase db = mDBHelper.getWritableDatabase();
+                    cursor = db.rawQuery("SELECT * FROM today WHERE date = '"
+                            + today + "'", null);
+                    adapter.changeCursor(cursor);
+                    mDBHelper.close();
                 }
                 break;
         }
     }
-
 
     protected void onStart() {
         super.onStart();

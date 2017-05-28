@@ -80,7 +80,7 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:id="@+id/pr_upload" />
 
         <Button
-            android:text="내 일정 관리"
+            android:text="오늘일정 보기"
             android:textSize="15dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:gravity="center|left"
@@ -90,7 +90,7 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:id="@+id/pr_manage" />
 
         <Button
-            android:text="내 일정 보기"
+            android:text="오늘일정 관리"
             android:textSize="15dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:gravity="center|left"
