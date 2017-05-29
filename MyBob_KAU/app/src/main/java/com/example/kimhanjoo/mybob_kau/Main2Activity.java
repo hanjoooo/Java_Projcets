@@ -1,164 +1,80 @@
 package com.example.kimhanjoo.mybob_kau;
 
+import java.io.File;
+import java.util.Calendar;
+
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+public class Main2Activity extends Activity
+{
+    private static final String BASE_PATH = Environment.getExternalStorageDirectory() + "/myapp";
+    private static final String NORMAL_PATH = BASE_PATH + "/normal";
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+    private AlarmManager _am;
 
-public class Main2Activity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener  {
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private GoogleApiClient mGoogleApiClient;
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference mConditionRef1 = mRootRef.child("memory");
-    DatabaseReference mchildRef;
-    DatabaseReference mchild1Ref;
-    DatabaseReference mchild2Ref;
-    DatabaseReference mchild3Ref;
-    DatabaseReference mchild4Ref;
-    DatabaseReference mchild5Ref;
-
-    String today;
-    Date date = new Date();// 오늘에 날짜를 세팅 해준다.
-    int year = date.getYear() + 1900;
-    int mon = date.getMonth() + 1;
-
-    String[] times = new String[]{"시간등록", "시간등록", "시간등록", "시간등록", "시간등록", "시간등록", "시간등록"};
-    String[] title = new String[]{"제목입력", "제목입력", "제목입력", "제목입력", "제목입력", "제목입력", "제목입력"};
-    String[] memo = new String[]{"내용입력", "내용입력", "내용입력", "내용입력", "내용입력", "내용입력", "내용입력"};
-    int cur = 0;
+    private ToggleButton _toggleSun, _toggleMon, _toggleTue, _toggleWed, _toggleThu, _toggleFri, _toggleSat;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        mAuth = FirebaseAuth.getInstance();
 
-        SimpleDateFormat df = new SimpleDateFormat("dd", Locale.KOREA);
-        String str_date = df.format(new Date());
-
-        today = year + "/"
-                + mon + "/" + str_date;
-
-        TextView text = (TextView) findViewById(R.id.texttoday);
-        text.setText(today);
-
-        Button btn = (Button) findViewById(R.id.btnadd);
-        btn.setOnClickListener(this);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    mchildRef = mConditionRef1.child(user.getUid());
-                    mchild1Ref = mchildRef.child(today);
-                    mchild2Ref = mchild1Ref.child("22:00");
-                    mchild3Ref = mchild2Ref.child("제목");
-                    mchild4Ref = mchild2Ref.child("내용");
-                    mchild5Ref = mchild2Ref.child("총 시간");
-                    mchild3Ref.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            title[cur] = dataSnapshot.getValue(String.class);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                    mchild4Ref.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            memo[cur] = dataSnapshot.getValue(String.class);
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                }
-            }
-
-        };
-
-        Log.d("ppppppppppppppppppppp",title[0]);
-        Log.d("ppppppppppppppppppppp",memo[0]);
-    }
-    @Override
-    public void onClick(View v) {
-        // TODO Auto-generated method stub
-        Intent intent = new Intent(this, Detail.class);
-        intent.putExtra("ParamDate", today);
-        startActivityForResult(intent, 1);
-
+        _am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        _toggleSun = (ToggleButton) findViewById(R.id.toggle_sun);
+        _toggleMon = (ToggleButton) findViewById(R.id.toggle_mon);
+        _toggleTue = (ToggleButton) findViewById(R.id.toggle_tue);
+        _toggleWed = (ToggleButton) findViewById(R.id.toggle_wed);
+        _toggleThu = (ToggleButton) findViewById(R.id.toggle_thu);
+        _toggleFri = (ToggleButton) findViewById(R.id.toggle_fri);
+        _toggleSat = (ToggleButton) findViewById(R.id.toggle_sat);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        // super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 0:
-            case 1:
-                if (resultCode == RESULT_OK) {
+    public void onRegist(View v)
+    {
+        Log.i("MainActivity.java | onRegist", "|" + "========= regist" + "|");
 
-                }
-                break;
-        }
+        File file = new File(NORMAL_PATH + "/drop_1235.m4a");
+        Log.i("MainActivity.java | onRegist", "| file exists? : " + file.exists() + "|" + file.hashCode());
+
+        boolean[] week = { false, _toggleSun.isChecked(), _toggleMon.isChecked(), _toggleTue.isChecked(), _toggleWed.isChecked(),
+                _toggleThu.isChecked(), _toggleFri.isChecked(), _toggleSat.isChecked() }; // sunday=1 이라서 0의 자리에는 아무 값이나 넣었음
+
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.putExtra("file", file.toString());
+        intent.putExtra("weekday", week);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, file.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.SECOND, cal.get(Calendar.SECOND) + 10); // 10초 뒤
+
+        long oneday = 24 * 60 * 60 * 1000;// 24시간
+
+        // 10초 뒤에 시작해서 매일 같은 시간에 반복하기
+        _am.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), oneday, pIntent);
     }
 
+    public void onUnregist(View v)
+    {
+        Log.i("MainActivity.java | onUnregist", "|" + "========= unregist" + "|");
 
-    protected void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        File file = new File(NORMAL_PATH + "/drop_1235.m4a");
+        Log.i("MainActivity.java | onRegist", "| file exists? : " + file.exists() + "|" + file.hashCode());
 
-    }
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, file.hashCode(), intent, 0);
 
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
-
+        _am.cancel(pIntent);
     }
 }
