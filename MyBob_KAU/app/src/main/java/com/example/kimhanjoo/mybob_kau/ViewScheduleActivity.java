@@ -46,7 +46,7 @@ public class  ViewScheduleActivity extends AppCompatActivity implements OnItemCl
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference mConditionRef1 = mRootRef.child("memory");
+    DatabaseReference mConditionRef1 = mRootRef.child("Schedule");
     DatabaseReference mchildRef;
     DatabaseReference mchild1Ref;
     DatabaseReference mchild2Ref;
@@ -127,7 +127,7 @@ public class  ViewScheduleActivity extends AppCompatActivity implements OnItemCl
                 if (user != null) {
                     mchildRef = mConditionRef1.child(user.getUid());
                     mchild1Ref = mchildRef.child(today);
-                    mchild2Ref = mchild1Ref.child("0002");
+                    mchild2Ref = mchild1Ref.child("00:00");
                     mchild3Ref = mchild2Ref.child("제목");
                     mchild4Ref = mchild2Ref.child("내용");
                     mchild5Ref = mchild2Ref.child("총 시간");
@@ -135,6 +135,7 @@ public class  ViewScheduleActivity extends AppCompatActivity implements OnItemCl
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // times[cur] = dataSnapshot.getValue(String.class);
+                            //Log.d("dddddddddddddd",times[cur]);
                         }
 
                         @Override
@@ -150,6 +151,7 @@ public class  ViewScheduleActivity extends AppCompatActivity implements OnItemCl
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                         }
+
                     });
                     mchild4Ref.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -165,6 +167,7 @@ public class  ViewScheduleActivity extends AppCompatActivity implements OnItemCl
                 }
             }
         };
+        Log.d("dddddddddddddd",times[cur]);
 
         /*
 

@@ -33,7 +33,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewScheduleActivity"></activity>
+        <activity android:name=".ViewScheduleActivity" />
+        <activity android:name=".Mydiary"></activity>
     </application>
 
 </manifest>

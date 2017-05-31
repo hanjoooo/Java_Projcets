@@ -70,7 +70,7 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:id="@+id/textView4" />
 
         <Button
-            android:text="내 일정 등록"
+            android:text="단기일정 등록"
             android:textSize="15dp"
             android:gravity="center|left"
             android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -80,7 +80,7 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:id="@+id/pr_upload" />
 
         <Button
-            android:text="오늘일정 보기"
+            android:text="정기일정 등록"
             android:textSize="15dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:gravity="center|left"
@@ -98,6 +98,23 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/pr_record" />
+        <TextView
+            android:text="마이 다이어리"
+            android:textSize="20dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:background="@color/focused1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5" />
+        <Button
+            android:text="오늘의 다이어리"
+            android:textSize="15dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:gravity="center|left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pr_diary" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

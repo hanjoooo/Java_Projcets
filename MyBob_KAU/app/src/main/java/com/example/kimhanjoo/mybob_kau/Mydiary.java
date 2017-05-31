@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -25,13 +26,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Detail extends AppCompatActivity implements OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class Mydiary extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef;
-    DatabaseReference mConditionRef1 = mRootRef.child("Schedule");
+    DatabaseReference mConditionRef1 = mRootRef.child("Diary");
     DatabaseReference mchildRef;
     DatabaseReference mchild1Ref;
     DatabaseReference mchild2Ref;
@@ -42,27 +47,36 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
 
     MyDBHelper mDBHelper;
     int mId;
+    Date date = new Date();// 오늘에 날짜를 세팅 해준다.
+    int year = date.getYear() + 1900;
+    int mon = date.getMonth() + 1;
     String today;
-    EditText editDate, editTitle, editTime, editMemo;
+    EditText editTitle, editTime, editMemo;
+    TextView  editDate;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_mydiary);
 
 
 
-        editDate = (EditText) findViewById(R.id.editdate);
+        editDate = (TextView) findViewById(R.id.editdate);
         editTitle = (EditText) findViewById(R.id.edittitle);
         editTime = (EditText) findViewById(R.id.edittime);
         editMemo = (EditText) findViewById(R.id.editmemo);
 
 
+        SimpleDateFormat df = new SimpleDateFormat("dd", Locale.KOREA);
+        String str_date = df.format(new Date());
+        SimpleDateFormat dd = new SimpleDateFormat("HH:mm",Locale.KOREA);
+        String str_time = dd.format(new Date());
+
         Intent intent = getIntent();
         mId = intent.getIntExtra("ParamID", -1);
-        today = intent.getStringExtra("ParamDate");
-
+        today = year + "/"
+                + mon + "/" + str_date;
         mDBHelper = new MyDBHelper(this, "Today.db", null, 1);
         mAuth = FirebaseAuth.getInstance();
 
@@ -81,6 +95,8 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
             }
             mDBHelper.close();
         }
+
+        editTime.setText(str_time);
 
 
         Button btn1 = (Button) findViewById(R.id.btnsave);
@@ -139,7 +155,6 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                 }
                 mDBHelper.close();
                 setResult(RESULT_OK);
-                mchild1Ref.setValue(editTime.getText().toString());
                 mConditionRef=mchild1Ref.child(editTime.getText().toString());
                 mchild3Ref = mConditionRef.child("제목");
                 mchild4Ref = mConditionRef.child("내용");
@@ -152,6 +167,7 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                 if (mId != -1) {
                     db.execSQL("DELETE FROM today WHERE _id='" + mId + "';");
                     mDBHelper.close();
+                    mchild1Ref.setValue(editTime.getText().toString());
                     mConditionRef=mchild1Ref.child(editTime.getText().toString());
                     mchild3Ref = mConditionRef.child("제목");
                     mchild4Ref = mConditionRef.child("내용");

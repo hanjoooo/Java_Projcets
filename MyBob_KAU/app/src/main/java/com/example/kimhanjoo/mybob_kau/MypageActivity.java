@@ -66,6 +66,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.pr_manage).setOnClickListener(this);
         findViewById(R.id.pr_upload).setOnClickListener(this);
         findViewById(R.id.pr_record).setOnClickListener(this);
+        findViewById(R.id.pr_diary).setOnClickListener(this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -197,6 +198,10 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
         }
         else if(i==R.id.pr_record){
             Intent intent = new Intent(getApplicationContext(),ViewScheduleActivity.class);
+            startActivity(intent);
+        }
+        else if(i==R.id.pr_diary){
+            Intent intent = new Intent(getApplicationContext(),Mydiary.class);
             startActivity(intent);
         }
     }
