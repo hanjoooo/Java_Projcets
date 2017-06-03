@@ -155,9 +155,10 @@ public class Mydiary extends AppCompatActivity implements View.OnClickListener, 
                 }
                 mDBHelper.close();
                 setResult(RESULT_OK);
-                mConditionRef=mchild1Ref.child(editTime.getText().toString());
-                mchild3Ref = mConditionRef.child("제목");
-                mchild4Ref = mConditionRef.child("내용");
+                mConditionRef=mchild1Ref.child("시간");
+                mchild3Ref = mchild1Ref.child("제목");
+                mchild4Ref = mchild1Ref.child("내용");
+                mConditionRef.setValue(editTime.getText().toString());
                 mchild3Ref.setValue(editTitle.getText().toString());
                 mchild4Ref.setValue(editMemo.getText().toString());
                 mDBHelper.close();

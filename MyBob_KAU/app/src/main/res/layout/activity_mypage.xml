@@ -107,7 +107,7 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:layout_height="wrap_content"
             android:id="@+id/textView5" />
         <Button
-            android:text="오늘의 다이어리"
+            android:text="오늘의 일기쓰기"
             android:textSize="15dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:gravity="center|left"
@@ -115,6 +115,16 @@ tools:context="com.example.kimhanjoo.mybob_kau.MypageActivity">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/pr_diary" />
+        <Button
+            android:text="다이어리 보기"
+            android:textSize="15dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:gravity="center|left"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Record_diary" />
+
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

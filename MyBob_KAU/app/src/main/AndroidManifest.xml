@@ -34,7 +34,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ViewScheduleActivity" />
-        <activity android:name=".Mydiary"></activity>
+        <activity android:name=".Mydiary" />
+        <activity android:name=".MydiaryRecord" />
+        <activity android:name=".showMyDiary"></activity>
     </application>
 
 </manifest>
