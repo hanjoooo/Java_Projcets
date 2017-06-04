@@ -43,38 +43,35 @@ public class Main2Activity extends Activity
 
     public void onRegist(View v)
     {
-        Log.i("MainActivity.java | onRegist", "|" + "========= regist" + "|");
-
-        File file = new File(NORMAL_PATH + "/drop_1235.m4a");
-        Log.i("MainActivity.java | onRegist", "| file exists? : " + file.exists() + "|" + file.hashCode());
 
         boolean[] week = { false, _toggleSun.isChecked(), _toggleMon.isChecked(), _toggleTue.isChecked(), _toggleWed.isChecked(),
                 _toggleThu.isChecked(), _toggleFri.isChecked(), _toggleSat.isChecked() }; // sunday=1 이라서 0의 자리에는 아무 값이나 넣었음
 
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.putExtra("file", file.toString());
-        intent.putExtra("weekday", week);
-        PendingIntent pIntent = PendingIntent.getBroadcast(this, file.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if(week[1]){
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.SECOND, cal.get(Calendar.SECOND) + 10); // 10초 뒤
+        }
+        if(week[2]){
+        }
+        if(week[3]){
 
-        long oneday = 24 * 60 * 60 * 1000;// 24시간
+        }
+        if(week[4]){
 
-        // 10초 뒤에 시작해서 매일 같은 시간에 반복하기
-        _am.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), oneday, pIntent);
+        }
+        if(week[5]){
+
+        }
+        if(week[6]){
+
+        }
+        if(week[7]){
+
+        }
+
     }
 
     public void onUnregist(View v)
     {
-        Log.i("MainActivity.java | onUnregist", "|" + "========= unregist" + "|");
 
-        File file = new File(NORMAL_PATH + "/drop_1235.m4a");
-        Log.i("MainActivity.java | onRegist", "| file exists? : " + file.exists() + "|" + file.hashCode());
-
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pIntent = PendingIntent.getBroadcast(this, file.hashCode(), intent, 0);
-
-        _am.cancel(pIntent);
     }
 }

@@ -10,19 +10,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Main2Activity" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onRegist"
-        android:text="등록" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onUnregist"
-        android:text="해지" />
+        android:gravity="center"
+        android:text="요일 선택(중복가능)" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -34,6 +27,7 @@
             android:id="@+id/toggle_sun"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginStart="50dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textOff="일"
             android:textOn="일" />
@@ -86,5 +80,69 @@
             android:textOff="토"
             android:textOn="토" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="시간" />
+
+    <EditText
+        android:id="@+id/edittime"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="00:00" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="제목" />
+
+    <EditText
+        android:id="@+id/edittitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="메모" />
+
+    <EditText
+        android:id="@+id/editmemo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRegist"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="40dp"
+            android:text="등록" />
+
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/button1"
+            android:text="해지" />
+
+    </RelativeLayout>
 
 </LinearLayout>

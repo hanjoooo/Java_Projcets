@@ -36,7 +36,7 @@
         <activity android:name=".ViewScheduleActivity" />
         <activity android:name=".Mydiary" />
         <activity android:name=".MydiaryRecord" />
-        <activity android:name=".showMyDiary"></activity>
+        <activity android:name=".showMyDiary" />
     </application>
 
 </manifest>
