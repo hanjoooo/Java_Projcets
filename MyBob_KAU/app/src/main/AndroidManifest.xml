@@ -27,11 +27,6 @@
         <activity android:name=".CalendarAcitivity" />
         <activity android:name=".ExToday" />
         <activity android:name=".Detail">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ViewScheduleActivity" />
         <activity android:name=".Mydiary" />

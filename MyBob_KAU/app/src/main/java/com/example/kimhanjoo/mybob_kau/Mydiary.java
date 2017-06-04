@@ -139,20 +139,6 @@ public class Mydiary extends AppCompatActivity implements View.OnClickListener, 
 
         switch (v.getId()) {
             case R.id.btnsave:
-                if (mId != -1) {
-                    db.execSQL("UPDATE today SET title='"
-                            + editTitle.getText().toString() + "',date='"
-                            + editDate.getText().toString() + "', time='"
-                            + editTime.getText().toString() + "', memo='"
-                            + editMemo.getText().toString() + "' WHERE _id='" + mId
-                            + "';");
-                } else {
-                    db.execSQL("INSERT INTO today VALUES(null, '"
-                            + editTitle.getText().toString() + "', '"
-                            + editDate.getText().toString() + "', '"
-                            + editTime.getText().toString() + "', '"
-                            + editMemo.getText().toString() + "');");
-                }
                 mDBHelper.close();
                 setResult(RESULT_OK);
                 mConditionRef=mchild1Ref.child("시간");
@@ -165,18 +151,6 @@ public class Mydiary extends AppCompatActivity implements View.OnClickListener, 
                 setResult(RESULT_OK);
                 break;
             case R.id.btndel:
-                if (mId != -1) {
-                    db.execSQL("DELETE FROM today WHERE _id='" + mId + "';");
-                    mDBHelper.close();
-                    mchild1Ref.setValue(editTime.getText().toString());
-                    mConditionRef=mchild1Ref.child(editTime.getText().toString());
-                    mchild3Ref = mConditionRef.child("제목");
-                    mchild4Ref = mConditionRef.child("내용");
-                    mchild3Ref.setValue(null);
-                    mchild4Ref.setValue(null);
-                    mchild1Ref.setValue(null);
-
-                }
                 setResult(RESULT_OK);
                 break;
             case R.id.btncancel:

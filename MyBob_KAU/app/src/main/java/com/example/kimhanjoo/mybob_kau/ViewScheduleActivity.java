@@ -58,7 +58,6 @@ public class  ViewScheduleActivity extends AppCompatActivity implements OnItemCl
     Cursor cursor;
     SimpleCursorAdapter adapter;
     ListView list;
-    ListViewAdapter adapters;
 
     Date date = new Date();// 오늘에 날짜를 세팅 해준다.
     int year = date.getYear() + 1900;
@@ -90,7 +89,7 @@ public class  ViewScheduleActivity extends AppCompatActivity implements OnItemCl
         TextView text = (TextView) findViewById(R.id.texttoday);
         text.setText(today);
 
-        mDBHelper = new MyDBHelper(this, "Today.db", null, 1);
+        mDBHelper = new MyDBHelper(this, "Todays.db", null, 1);
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
 
         cursor = db.rawQuery(

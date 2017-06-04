@@ -54,8 +54,6 @@ public class ExToday extends AppCompatActivity implements OnItemClickListener,
     Cursor cursor;
     SimpleCursorAdapter adapter;
     ListView list;
-    ListViewAdapter adapters;
-
     String[] times = new String[]{"시간등록","시간등록","시간등록","시간등록","시간등록","시간등록","시간등록"};
     String[] title = new String[]{"제목입력","제목입력","제목입력","제목입력","제목입력","제목입력","제목입력"};
     String[] memo = new String[]{"내용입력","내용입력","내용입력","내용입력","내용입력","내용입력","내용입력"};
@@ -77,7 +75,7 @@ public class ExToday extends AppCompatActivity implements OnItemClickListener,
         TextView text = (TextView) findViewById(R.id.texttoday);
         text.setText(today);
 
-        mDBHelper = new MyDBHelper(this, "Today.db", null, 1);
+        mDBHelper = new MyDBHelper(this, "Todays.db", null, 1);
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
 
         cursor = db.rawQuery(

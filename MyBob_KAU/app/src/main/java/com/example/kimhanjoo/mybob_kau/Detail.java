@@ -43,7 +43,7 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
     MyDBHelper mDBHelper;
     int mId;
     String today;
-    EditText editDate, editTitle, editTime, editMemo;
+    EditText editDate, editTitle, editTime,editTimeend, editMemo;
 
     /** Called when the activity is first created. */
     @Override
@@ -56,6 +56,7 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
         editDate = (EditText) findViewById(R.id.editdate);
         editTitle = (EditText) findViewById(R.id.edittitle);
         editTime = (EditText) findViewById(R.id.edittime);
+        editTimeend = (EditText) findViewById(R.id.edittimend);
         editMemo = (EditText) findViewById(R.id.editmemo);
 
 
@@ -63,7 +64,7 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
         mId = intent.getIntExtra("ParamID", -1);
         today = intent.getStringExtra("ParamDate");
 
-        mDBHelper = new MyDBHelper(this, "Today.db", null, 1);
+        mDBHelper = new MyDBHelper(this, "Todays.db", null, 1);
         mAuth = FirebaseAuth.getInstance();
 
         if (mId == -1) {
@@ -77,7 +78,8 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                 editTitle.setText(cursor.getString(1));
                 editDate.setText(cursor.getString(2));
                 editTime.setText(cursor.getString(3));
-                editMemo.setText(cursor.getString(4));
+                editTimeend.setText(cursor.getString(4));
+                editMemo.setText(cursor.getString(5));
             }
             mDBHelper.close();
         }
@@ -127,7 +129,8 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                     db.execSQL("UPDATE today SET title='"
                             + editTitle.getText().toString() + "',date='"
                             + editDate.getText().toString() + "', time='"
-                            + editTime.getText().toString() + "', memo='"
+                            + editTime.getText().toString() + "', timeend='"
+                            + editTimeend.getText().toString() + "', memo='"
                             + editMemo.getText().toString() + "' WHERE _id='" + mId
                             + "';");
                 } else {
@@ -135,6 +138,7 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                             + editTitle.getText().toString() + "', '"
                             + editDate.getText().toString() + "', '"
                             + editTime.getText().toString() + "', '"
+                            + editTimeend.getText().toString() + "', '"
                             + editMemo.getText().toString() + "');");
                 }
                 mDBHelper.close();
@@ -143,8 +147,10 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                 mConditionRef=mchild1Ref.child(editTime.getText().toString());
                 mchild3Ref = mConditionRef.child("제목");
                 mchild4Ref = mConditionRef.child("내용");
+                mchild5Ref = mConditionRef.child("종료시간");
                 mchild3Ref.setValue(editTitle.getText().toString());
                 mchild4Ref.setValue(editMemo.getText().toString());
+                mchild5Ref.setValue(editTimeend.getText().toString());
                 mDBHelper.close();
                 setResult(RESULT_OK);
                 break;
@@ -155,8 +161,10 @@ public class Detail extends AppCompatActivity implements OnClickListener, Google
                     mConditionRef=mchild1Ref.child(editTime.getText().toString());
                     mchild3Ref = mConditionRef.child("제목");
                     mchild4Ref = mConditionRef.child("내용");
+                    mchild5Ref = mConditionRef.child("종료시간");
                     mchild3Ref.setValue(null);
                     mchild4Ref.setValue(null);
+                    mchild5Ref.setValue(null);
                     mchild1Ref.setValue(null);
 
                 }
