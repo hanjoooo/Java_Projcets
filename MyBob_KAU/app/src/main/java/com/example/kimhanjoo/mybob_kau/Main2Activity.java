@@ -1,7 +1,10 @@
 package com.example.kimhanjoo.mybob_kau;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -43,10 +46,14 @@ public class Main2Activity extends Activity
     DatabaseReference mchild6Ref;
 
     MyDBHelper mDBHelper;
+    Date date = new Date();// 오늘에 날짜를 세팅 해준다.
+    int year = date.getYear() + 1900;
+    int mon = date.getMonth() + 1;
+    String today,endday;
     int mId;
-    String today;
-    EditText editTitle, editTime, editMemo;
-
+    EditText editTitle, editTime, editMemo,editDate,editDateend;
+    SimpleDateFormat df = new SimpleDateFormat("dd", Locale.KOREA);
+    String str_date = df.format(new Date());
     private ToggleButton _toggleSun, _toggleMon, _toggleTue, _toggleWed, _toggleThu, _toggleFri, _toggleSat;
 
     @Override
@@ -58,9 +65,18 @@ public class Main2Activity extends Activity
         editTitle = (EditText) findViewById(R.id.edittitle);
         editTime = (EditText) findViewById(R.id.edittime);
         editMemo = (EditText) findViewById(R.id.editmemo);
+        editDate = (EditText) findViewById(R.id.editdate);
+        editDateend = (EditText) findViewById(R.id.editdatend);
 
+        today = year + "/"
+                + mon + "/" + str_date;
+        endday = year +"/"+(mon+2)+"/"+str_date;
 
-        Intent intent = getIntent();
+        editDate.setText(today);
+        editDateend.setText(endday);
+
+        mDBHelper = new MyDBHelper(this, "Todays.db", null, 1);
+        mAuth = FirebaseAuth.getInstance();
 
         _am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         _toggleSun = (ToggleButton) findViewById(R.id.toggle_sun);
@@ -79,7 +95,7 @@ public class Main2Activity extends Activity
                 _toggleThu.isChecked(), _toggleFri.isChecked(), _toggleSat.isChecked() }; // sunday=1 이라서 0의 자리에는 아무 값이나 넣었음
 
         if(week[1]){
-
+            Log.d("agegaega","okssssssssssssssssssss");
         }
         if(week[2]){
         }

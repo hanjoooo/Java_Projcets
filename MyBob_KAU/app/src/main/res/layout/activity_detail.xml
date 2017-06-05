@@ -33,8 +33,7 @@
             android:id="@+id/editdate"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="2011/5/20" />
+            android:gravity="center" />
 
         <TextView
             android:layout_width="fill_parent"
