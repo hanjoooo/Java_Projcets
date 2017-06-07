@@ -60,7 +60,6 @@ public class ExToday extends AppCompatActivity implements OnItemClickListener,
     int cur=0;
     int x=0;
 
-    ArrayList<Memos> arraylist = new ArrayList<Memos>();
 
     /** Called when the activity is first created. */
     @Override
